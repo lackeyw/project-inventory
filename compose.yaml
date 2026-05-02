@@ -1,0 +1,28 @@
+services:
+  project-inventory-frontend:
+    build:
+      context: ./project-inventory-viewer
+    depends_on:
+      - project-inventory-backend
+    ports:
+      - 3000:80
+  project-inventory-backend:
+    build:
+      context: ./project-inventory-api
+    depends_on:
+      - postgres
+    ports:
+      - 8888:8080
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydb
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    ports:
+      - 8080:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@pgadmin.org
+      PGADMIN_DEFAULT_PASSWORD: admin
