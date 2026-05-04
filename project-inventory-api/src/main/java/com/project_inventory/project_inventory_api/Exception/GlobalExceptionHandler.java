@@ -7,8 +7,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    public ResponseEntity<String> handleDatabaseFailure(DatabaseFailureException failureException) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to process request: " + failureException.getMessage());
+    public ResponseEntity<String> handleIllegalArgument(IllegalArgumentException illegalArgumentException) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body("Invalid request: " + illegalArgumentException.getMessage());
     }
-    
+
 }

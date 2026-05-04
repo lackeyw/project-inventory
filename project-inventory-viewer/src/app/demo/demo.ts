@@ -1,6 +1,6 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { DemoDisplay } from '../demo-display/demo-display';
-import { DemoResult } from '../demoResult';
+import { DemoResult } from './demoResult';
 import { HttpClient } from '@angular/common/http';
 
 @Component({

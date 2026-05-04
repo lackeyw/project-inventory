@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { DemoResult } from '../demoResult';
+import { DemoResult } from '../demo/demoResult';
 
 @Component({
   selector: 'app-demo-display',

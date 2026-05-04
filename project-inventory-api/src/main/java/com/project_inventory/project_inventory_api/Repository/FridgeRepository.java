@@ -1,0 +1,16 @@
+package com.project_inventory.project_inventory_api.Repository;
+
+import java.sql.Date;
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import com.project_inventory.project_inventory_api.Model.Fridge;
+
+public interface FridgeRepository extends JpaRepository<Fridge, Long> {
+
+    @Query("SELECT f FROM Fridge f WHERE f.expiration_date < :date")
+    List<Fridge> findByBestBeforeDate(@Param("date") Date date);
+}
