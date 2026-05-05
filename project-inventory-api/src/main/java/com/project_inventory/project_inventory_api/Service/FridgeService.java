@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.project_inventory.project_inventory_api.Model.Fridge;
+import com.project_inventory.project_inventory_api.Model.Inventory;
 import com.project_inventory.project_inventory_api.Repository.FridgeRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -68,6 +69,13 @@ public class FridgeService implements LocationService<Fridge> {
     @Override
     public List<Fridge> getItemByName(String name) {
         return fridgeRepository.findByName(name);
+    }
+
+    @Override
+    public Fridge toSpecificType(Inventory source) {
+        Fridge fridge = new Fridge();
+        copyFields(source, fridge);
+        return fridge;
     }
 
 }

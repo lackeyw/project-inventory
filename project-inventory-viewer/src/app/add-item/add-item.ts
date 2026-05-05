@@ -1,6 +1,7 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, OnInit, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ItemWithLocation } from '../inventory/InventoryItemModel';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-add-item',
@@ -8,7 +9,7 @@ import { ItemWithLocation } from '../inventory/InventoryItemModel';
   templateUrl: './add-item.html',
   styleUrl: './add-item.css',
 })
-export class AddItem {
+export class AddItem implements OnInit {
   location = input<string>();
   addItemEvent = output<ItemWithLocation>();
 
@@ -20,6 +21,13 @@ export class AddItem {
     expiration_date: [null as string | null],
     location: [null as string | null, Validators.required],
   });
+
+  ngOnInit(): void {
+    const loc = this.location();
+    if (loc) {
+      this.addItemForm.controls.location.setValue(loc);
+    }
+  }
 
   shouldNotDisplayLocation() {
     return !!this.location();
@@ -47,5 +55,9 @@ export class AddItem {
 
     this.addItemEvent.emit(item);
     this.addItemForm.reset();
+  }
+
+  isNotDevSituation() {
+    return !environment.devRun;
   }
 }

@@ -240,6 +240,51 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  /inventory/addToShoppingList/{type}/{id}:
+    post:
+      tags:
+        - shopping list
+      summary: Adds an item to the shopping list.
+      description: Adds an item to the shopping list. The original item remains in place.
+      operationId: addToShoppingList
+      parameters:
+        - name: type
+          in: path
+          description: Type of inventory location
+          required: true
+          explode: true
+          schema:
+            type: string
+            default: pantry
+            enum:
+              - fridge
+              - freezer
+              - pantry
+        - name: id
+          in: path
+          description: item ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "201":
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: some example
+        "400":
+          description: Invalid type/id provided
+        "500":
+          description: Internal Service Error
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /inventory/findItemsByBestBeforeDate/{date}:
     get:
       tags:

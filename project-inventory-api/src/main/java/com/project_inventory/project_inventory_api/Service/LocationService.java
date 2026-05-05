@@ -20,4 +20,13 @@ public interface LocationService<T extends Inventory> {
     void deleteItem(Long id);
 
     List<T> findItemsByBestBeforeDate(Date date);
+
+    T toSpecificType(Inventory source);
+
+    default void copyFields(Inventory source, Inventory target) {
+        target.setName(source.getName());
+        target.setDate_added(source.getDate_added());
+        target.setExpiration_date(source.getExpiration_date());
+        target.setQuantity(source.getQuantity());
+    }
 }

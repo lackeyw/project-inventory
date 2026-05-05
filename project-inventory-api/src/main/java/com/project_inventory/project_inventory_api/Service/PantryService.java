@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.project_inventory.project_inventory_api.Model.Pantry;
+import com.project_inventory.project_inventory_api.Model.Inventory;
 import com.project_inventory.project_inventory_api.Repository.PantryRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -68,6 +69,13 @@ public class PantryService implements LocationService<Pantry> {
     @Override
     public List<Pantry> getItemByName(String name) {
         return pantryRepository.findByName(name);
+    }
+
+    @Override
+    public Pantry toSpecificType(Inventory source) {
+        Pantry pantry = new Pantry();
+        copyFields(source, pantry);
+        return pantry;
     }
 
 }

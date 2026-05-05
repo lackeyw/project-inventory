@@ -96,7 +96,8 @@ public class InventoryController {
                 + inventoryTransferDTO.getSourceType() + " to " + inventoryTransferDTO.getDestinationType());
         InventoryValues sourceType = getInventoryType(inventoryTransferDTO.getSourceType());
         InventoryValues destinationType = getInventoryType(inventoryTransferDTO.getDestinationType());
-        inventoryService.TransferInventoryItem(sourceType, destinationType, inventoryTransferDTO.getInventoryId());
+        inventoryService.TransferInventoryItem(sourceType, destinationType,
+                inventoryTransferDTO.getInventoryId().longValue());
         return "Transferred inventory item";
     }
 

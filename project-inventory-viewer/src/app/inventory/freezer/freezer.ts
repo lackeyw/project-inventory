@@ -13,18 +13,5 @@ import { MoveItem } from '../../move-item/move-item';
 })
 export class Freezer extends Inventory {
   override className = 'freezer';
-  override items = signal<Item[]>([
-    {
-      id: 1,
-      name: 'Chicken Breast',
-      quantity: 2,
-      date_added: new Date('2025-11-08'),
-      expiration_date: new Date('2026-05-08'),
-    },
-    {
-      id: 2,
-      name: 'Ice Cream',
-      date_added: new Date('2026-05-01'),
-    },
-  ]);
+  override items = signal<Item[]>([]);
 }

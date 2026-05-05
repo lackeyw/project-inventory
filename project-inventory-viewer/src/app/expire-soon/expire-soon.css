@@ -17,3 +17,7 @@ th, td {
     color: red;
     border-color: black;
 }
+
+.expireText {
+    text-align: center
+}

@@ -9,11 +9,11 @@ public class InventoryTransferDTOTest {
         InventoryTransferDTO transferDTO = new InventoryTransferDTO();
         transferDTO.setSourceType("some source");
         transferDTO.setDestinationType("some destination");
-        transferDTO.setInventoryId(1L);
+        transferDTO.setInventoryId(1);
         ;
 
         assert (transferDTO.getSourceType().equals("some source"));
         assert (transferDTO.getDestinationType().equals("some destination"));
-        assert (transferDTO.getInventoryId() == 1L);
+        assert (transferDTO.getInventoryId() == 1);
     }
 }

@@ -44,11 +44,19 @@ public class InventoryService {
     }
 
     public void addInventoryItem(InventoryValues type, Inventory inventory) {
-        getService(type).addItem(inventory);
+        addViaService(getService(type), inventory);
     }
 
     public void updateInventoryItem(InventoryValues type, Long id, Inventory inventory) {
-        getService(type).updateItem(id, inventory);
+        updateViaService(getService(type), id, inventory);
+    }
+
+    private <T extends Inventory> void addViaService(LocationService<T> service, Inventory inventory) {
+        service.addItem(service.toSpecificType(inventory));
+    }
+
+    private <T extends Inventory> void updateViaService(LocationService<T> service, Long id, Inventory inventory) {
+        service.updateItem(id, service.toSpecificType(inventory));
     }
 
     public void deleteInventoryItem(InventoryValues inventoryType, Long id) {
@@ -59,7 +67,12 @@ public class InventoryService {
         Inventory item = getInventoryItemById(fromType, id);
         if (item != null) {
             deleteInventoryItem(fromType, id);
-            addInventoryItem(toType, item);
+            Inventory newItem = new Inventory();
+            newItem.setName(item.getName());
+            newItem.setDate_added(item.getDate_added());
+            newItem.setExpiration_date(item.getExpiration_date());
+            newItem.setQuantity(item.getQuantity());
+            addInventoryItem(toType, newItem);
         } else {
             throw new IllegalArgumentException("Item with ID " + id + " not found in " + fromType);
         }

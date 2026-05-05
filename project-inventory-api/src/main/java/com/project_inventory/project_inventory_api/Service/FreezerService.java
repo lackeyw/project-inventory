@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.project_inventory.project_inventory_api.Model.Freezer;
+import com.project_inventory.project_inventory_api.Model.Inventory;
 import com.project_inventory.project_inventory_api.Repository.FreezerRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -68,6 +69,13 @@ public class FreezerService implements LocationService<Freezer> {
     @Override
     public List<Freezer> getItemByName(String name) {
         return freezerRepository.findByName(name);
+    }
+
+    @Override
+    public Freezer toSpecificType(Inventory source) {
+        Freezer freezer = new Freezer();
+        copyFields(source, freezer);
+        return freezer;
     }
 
 }
