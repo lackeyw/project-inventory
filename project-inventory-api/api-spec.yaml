@@ -1,0 +1,547 @@
+openapi: 3.0.4
+info:
+  title: ProjectInventoryApi
+  description: |-
+    This API is used to query the project-inventory database.
+  contact:
+    email: lackeyw15@gmail.com
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+externalDocs:
+  description: Created for the backend API of project-inventory
+  url: https://github.com/lackeyw/project-inventory
+servers:
+  - url: http://localhost:8888
+tags:
+  - name: inventory
+    description: Operations related to the inventory (fridge, freezer, pantry)
+  - name: shopping list
+    description: Operations for interacting with the Shopping List
+paths:
+  /inventory/{type}:
+    get:
+      tags:
+        - inventory
+      summary: Get all items.
+      description: Get all items for a specific inventory location type.
+      operationId: getAllItemsByType
+      parameters:
+        - name: type
+          in: path
+          description: Type of inventory location
+          required: true
+          explode: true
+          schema:
+            type: string
+            default: pantry
+            enum:
+              - fridge
+              - freezer
+              - pantry
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Item"
+        "400":
+          description: Invalid type provided
+        "500":
+          description: Internal Service Error
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      tags:
+        - inventory
+      summary: Add a new item.
+      description: Add a new item to the requested location type.
+      operationId: addItemByType
+      parameters:
+        - name: type
+          in: path
+          description: Type of inventory location
+          required: true
+          explode: true
+          schema:
+            type: string
+            default: pantry
+            enum:
+              - fridge
+              - freezer
+              - pantry
+      requestBody:
+        description: Create a new item in the inventory
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Item"
+      responses:
+        "201":
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: some example
+        "400":
+          description: Invalid type provided
+        "500":
+          description: Internal Service Error
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /inventory/{type}/{id}:
+    get:
+      tags:
+        - inventory
+      summary: Get  specific item.
+      description: Get an item for a specific inventory location type and id.
+      operationId: getItemByTypeAndId
+      parameters:
+        - name: type
+          in: path
+          description: Type of inventory location
+          required: true
+          explode: true
+          schema:
+            type: string
+            default: pantry
+            enum:
+              - fridge
+              - freezer
+              - pantry
+        - name: id
+          in: path
+          description: item ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Item"
+        "400":
+          description: Invalid type provided
+        "500":
+          description: Internal Service Error
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    patch:
+      tags:
+        - inventory
+      summary: Update an existing item.
+      description: Update an existing item by specific location type and item id.
+      operationId: updateItemByTypeAndId
+      parameters:
+        - name: type
+          in: path
+          description: Type of inventory location
+          required: true
+          explode: true
+          schema:
+            type: string
+            default: pantry
+            enum:
+              - fridge
+              - freezer
+              - pantry
+        - name: id
+          in: path
+          description: item ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Update an existing item in the inventory
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Item"
+      responses:
+        "201":
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: some example
+        "400":
+          description: Invalid type provided
+        "500":
+          description: Internal Service Error
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      tags:
+        - inventory
+      summary: Delete a specific item.
+      description: Delete an item for a specific inventory location type and id.
+      operationId: deleteItemByTypeAndId
+      parameters:
+        - name: type
+          in: path
+          description: Type of inventory location
+          required: true
+          explode: true
+          schema:
+            type: string
+            default: pantry
+            enum:
+              - fridge
+              - freezer
+              - pantry
+        - name: id
+          in: path
+          description: item ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "201":
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: some example
+        "400":
+          description: Invalid type provided
+        "500":
+          description: Internal Service Error
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /inventory/findItemsByBestBeforeDate/{date}:
+    get:
+      tags:
+        - inventory
+      summary: Get all items.
+      description: Get all items for a specific inventory location type.
+      operationId: getItemsBestBeforeDate
+      parameters:
+        - name: date
+          in: path
+          description: Latest Date for expiration
+          required: true
+          explode: true
+          schema:
+            type: string
+            format: date
+            example: "2026-05-05"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Item"
+        "400":
+          description: Invalid type provided
+        "500":
+          description: Internal Service Error
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /inventory/transfer:
+    post:
+      tags:
+        - inventory
+      summary: Transfer an item from one location to another.
+      description: Transfer an item from one location to another.
+      operationId: transferItem
+      requestBody:
+        description: Transfer an item in the inventory
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ItemTransferDTO"
+      responses:
+        "201":
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: some example
+        "400":
+          description: Invalid type provided
+        "500":
+          description: Internal Service Error
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /shopping-list:
+    get:
+      tags:
+        - shopping list
+      summary: Get all shopping list items.
+      description: Get all items from the shopping list.
+      operationId: getAllShoppingListItems
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Shopping-List"
+        "400":
+          description: Invalid type provided
+        "500":
+          description: Internal Service Error
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      tags:
+        - shopping list
+      summary: Add a new shopping list item.
+      description: Add a new item to the shopping list.
+      operationId: addItemToShoppingList
+      requestBody:
+        description: Create a new item in the Shopping List
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Shopping-List"
+      responses:
+        "201":
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: some example
+        "400":
+          description: Invalid type provided
+        "500":
+          description: Internal Service Error
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /shopping-list/{id}:
+    get:
+      tags:
+        - shopping list
+      summary: Get a specific shopping list item.
+      description: Get an item for the shopping list by id.
+      operationId: getShoppingListItemById
+      parameters:
+        - name: id
+          in: path
+          description: item ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Shopping-List"
+        "400":
+          description: Invalid Id provided.
+        "500":
+          description: Internal Service Error
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    patch:
+      tags:
+        - shopping list
+      summary: Update an existing shopping list item.
+      description: Update an existing shopping list item by item id.
+      operationId: updateShoppingListItemById
+      parameters:
+        - name: id
+          in: path
+          description: item ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Update an existing item in the inventory
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Shopping-List"
+      responses:
+        "201":
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: some example
+        "400":
+          description: Invalid Id provided
+        "500":
+          description: Internal Service Error
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      tags:
+        - shopping list
+      summary: Delete a specific shopping list item.
+      description: Delete a shopping list item for a specific id.
+      operationId: deleteShoppingListItemId
+      parameters:
+        - name: id
+          in: path
+          description: item ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "201":
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: some example
+        "400":
+          description: Invalid type provided
+        "500":
+          description: Internal Service Error
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    Item:
+      required:
+        - name
+        - date_added
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        name:
+          type: string
+          example: Apple
+        quantity:
+          type: integer
+          format: int64
+          example: 3
+        date_added:
+          type: string
+          format: date
+          example: "2026-05-05"
+        expiration_date:
+          type: string
+          format: date
+          example: "2026-06-05"
+    ItemTransferDTO:
+      required:
+        - inventoryId
+        - sourceType
+        - destinationType
+      type: object
+      properties:
+        inventoryId:
+          description: ID for the item in the source location
+          type: integer
+          format: int64
+          example: 1
+        sourceType:
+          type: string
+          default: pantry
+          enum:
+            - fridge
+            - freezer
+            - pantry
+        destinationType:
+          type: string
+          default: pantry
+          enum:
+            - fridge
+            - freezer
+            - pantry
+    Shopping-List:
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        name:
+          type: string
+          example: Apple
+        quantity:
+          type: integer
+          format: int64
+          example: 3
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      required:
+        - code
+        - message
