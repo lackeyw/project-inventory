@@ -11,6 +11,8 @@ import com.project_inventory.project_inventory_api.Model.Pantry;
 
 public interface PantryRepository extends JpaRepository<Pantry, Long> {
 
+    List<Pantry> findByName(String name);
+
     @Query("SELECT p FROM Pantry p WHERE p.expiration_date < :date")
     List<Pantry> findByBestBeforeDate(@Param("date") Date date);
 }

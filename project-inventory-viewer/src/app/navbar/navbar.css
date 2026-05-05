@@ -2,12 +2,61 @@ ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
+    overflow: hidden;
+    background-color: gray;
 }
 
-li {
-    border-style: groove;
-}
-
-ul.navbar-links li {
+ul li {
     float: left;
+}
+
+ul li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+/* ul li a:hover {
+  background-color: #111111;
+} */
+
+.home-nav a.active {
+  background-color: lightgreen;
+  color: #333;
+}
+
+.home-nav a:hover {
+  background-color: darkgreen;
+  color: #333;
+}
+
+.pantry-nav a.active {
+  background-color: lightyellow;
+  color: #333;
+}
+
+.pantry-nav a:hover {
+  background-color: burlywood;
+  color: #333
+}
+.fridge-nav a.active {
+  background-color: lightblue;
+  color:#333
+}
+
+.fridge-nav a:hover {
+  background-color: cadetblue;
+  color: #333;
+}
+
+.freezer-nav a.active {
+  background-color: lightcyan;
+  color: #333;
+}
+
+.freezer-nav a:hover {
+  background-color: cyan;
+  color: #333;
 }

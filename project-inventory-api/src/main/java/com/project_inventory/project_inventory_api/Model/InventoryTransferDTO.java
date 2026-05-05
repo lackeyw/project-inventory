@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class InventoryTransferDTO {
-    private Inventory inventory;
+    private Long inventoryId;
     private String sourceType;
     private String destinationType;
 }

@@ -11,6 +11,8 @@ import com.project_inventory.project_inventory_api.Model.Fridge;
 
 public interface FridgeRepository extends JpaRepository<Fridge, Long> {
 
+    List<Fridge> findByName(String name);
+
     @Query("SELECT f FROM Fridge f WHERE f.expiration_date < :date")
     List<Fridge> findByBestBeforeDate(@Param("date") Date date);
 }

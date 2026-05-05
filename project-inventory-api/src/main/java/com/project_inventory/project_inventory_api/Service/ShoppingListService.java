@@ -24,7 +24,16 @@ public class ShoppingListService {
     }
 
     public void addShoppingListItem(ShoppingList shoppingList) {
-        shoppingListRepository.save(shoppingList);
+        List<ShoppingList> existingItems = this.getItemByName(shoppingList.getName());
+        if (existingItems.size() > 0) {
+            for (ShoppingList existingItem : existingItems) {
+                existingItem.setQuantity(existingItem.getQuantity() + shoppingList.getQuantity());
+                shoppingListRepository.save(existingItem);
+                return;
+            }
+        } else {
+            shoppingListRepository.save(shoppingList);
+        }
     }
 
     public void updateShoppingListItem(Long id, ShoppingList shoppingList) {
@@ -38,6 +47,10 @@ public class ShoppingListService {
 
     public void deleteShoppingListItem(Long id) {
         shoppingListRepository.deleteById(id);
+    }
+
+    public List<ShoppingList> getItemByName(String name) {
+        return shoppingListRepository.findByName(name);
     }
 
 }

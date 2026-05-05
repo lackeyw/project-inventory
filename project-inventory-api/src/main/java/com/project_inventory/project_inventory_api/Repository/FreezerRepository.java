@@ -11,6 +11,8 @@ import com.project_inventory.project_inventory_api.Model.Freezer;
 
 public interface FreezerRepository extends JpaRepository<Freezer, Long> {
 
+    List<Freezer> findByName(String name);
+
     @Query("SELECT p FROM Freezer p WHERE p.expiration_date < :date")
     List<Freezer> findByBestBeforeDate(@Param("date") Date date);
 }

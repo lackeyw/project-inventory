@@ -28,7 +28,18 @@ public class FreezerService implements LocationService<Freezer> {
 
     @Override
     public void addItem(Freezer inventory) {
-        freezerRepository.save(inventory);
+        List<Freezer> existingItems = this.getItemByName(inventory.getName());
+        if (existingItems.size() > 0) {
+            for (Freezer existingItem : existingItems) {
+                if (existingItem.getDate_added().equals(inventory.getDate_added())) {
+                    existingItem.setQuantity(existingItem.getQuantity() + inventory.getQuantity());
+                    freezerRepository.save(existingItem);
+                    return;
+                }
+            }
+        } else {
+            freezerRepository.save(inventory);
+        }
     }
 
     @Override
@@ -52,6 +63,11 @@ public class FreezerService implements LocationService<Freezer> {
     @Override
     public List<Freezer> findItemsByBestBeforeDate(Date date) {
         return freezerRepository.findByBestBeforeDate(date);
+    }
+
+    @Override
+    public List<Freezer> getItemByName(String name) {
+        return freezerRepository.findByName(name);
     }
 
 }

@@ -1,0 +1,19 @@
+table, th, td {
+    border: 1px solid;
+    text-align: center;
+    padding: 5px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 800px;
+}
+
+th, td {
+    width: 200px;
+}
+
+.isExpiringSoon {
+    color: red;
+    border-color: black;
+}

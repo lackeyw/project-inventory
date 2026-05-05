@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
-import { Pantry } from './pantry/pantry';
+import { Pantry } from './inventory/pantry/pantry';
 import { Home } from './home/home';
-import { Fridge } from './fridge/fridge';
-import { Freezer } from './freezer/freezer';
+import { Fridge } from './inventory/fridge/fridge';
+import { Freezer } from './inventory/freezer/freezer';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },

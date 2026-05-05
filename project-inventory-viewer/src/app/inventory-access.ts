@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Item } from './inventory-item/InventoryItemModel';
+import { Item } from './inventory/InventoryItemModel';
 
 export class InventoryAccess {
   public static retrieveAllItems(inventoryType: string, httpClient: HttpClient): Item[] {

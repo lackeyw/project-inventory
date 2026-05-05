@@ -28,7 +28,18 @@ public class FridgeService implements LocationService<Fridge> {
 
     @Override
     public void addItem(Fridge fridge) {
-        fridgeRepository.save(fridge);
+        List<Fridge> existingItems = this.getItemByName(fridge.getName());
+        if (existingItems.size() > 0) {
+            for (Fridge existingItem : existingItems) {
+                if (existingItem.getDate_added().equals(fridge.getDate_added())) {
+                    existingItem.setQuantity(existingItem.getQuantity() + fridge.getQuantity());
+                    fridgeRepository.save(existingItem);
+                    return;
+                }
+            }
+        } else {
+            fridgeRepository.save(fridge);
+        }
     }
 
     @Override
@@ -52,6 +63,11 @@ public class FridgeService implements LocationService<Fridge> {
     @Override
     public List<Fridge> findItemsByBestBeforeDate(Date date) {
         return fridgeRepository.findByBestBeforeDate(date);
+    }
+
+    @Override
+    public List<Fridge> getItemByName(String name) {
+        return fridgeRepository.findByName(name);
     }
 
 }

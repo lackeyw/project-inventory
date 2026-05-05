@@ -126,6 +126,14 @@ public class InventoryServiceTest {
     }
 
     @Test
+    public void testAddInventoryItemWhenItAlreadyExists() {
+        Freezer freezer = new Freezer();
+        freezer.setId(1L);
+        freezer.setName("some name");
+        freezer.setDate_added(Date.valueOf("2024-01-01"));
+    }
+
+    @Test
     public void testUpdateInventoryItemWhenExists() {
         Fridge updatedFridge = new Fridge();
         updatedFridge.setName("Apple Updated");

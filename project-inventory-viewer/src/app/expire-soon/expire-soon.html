@@ -1,0 +1,20 @@
+<div class="expire-soon">
+  <h1>These items expire soon!</h1>
+  <p>Move to the freezer or eat them soon.</p>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Quantity</th>
+      <th>Expiration Date</th>
+    </tr>
+    @for (item of expireSoonItems(); track $index) {
+      <tr>
+        <td>{{ item.name }}</td>
+        <td>{{ item.quantity }}</td>
+        <td class="isExpiringSoon">
+          {{ item.expiration_date!.toLocaleDateString('en-US') }}
+        </td>
+      </tr>
+    }
+  </table>
+</div>

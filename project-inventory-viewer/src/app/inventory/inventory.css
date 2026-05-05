@@ -1,0 +1,41 @@
+table, th, td {
+    border: 1px solid;
+    text-align: center;
+    padding: 5px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 800px;
+    margin: 20px;
+}
+
+th, td {
+    width: 200px;
+}
+
+.isExpiringSoon {
+    color:crimson;
+    border-color: black;
+}
+
+.fridge {
+    background-color: lightblue;
+}
+.freezer {
+    background-color: lightcyan;
+}
+.pantry {
+    background-color: lightyellow;
+}
+
+.inventory-view {
+    margin: 15px;
+}
+
+.inventory-layout {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 20px;
+}

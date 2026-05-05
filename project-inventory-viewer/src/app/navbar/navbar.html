@@ -1,12 +1,9 @@
 <nav class="navbar">
-  <div class="navbar-logo">
-    <img src="assets/logo.png" alt="my app logo" />
-  </div>
   <ul class="navbar-links">
-    <li><a routerLink="/">Home</a></li>
-    <li><a routerLink="/pantry">Pantry</a></li>
-    <li><a routerLink="/fridge">Fridge</a></li>
-    <li><a routerLink="/freezer">Freezer</a></li>
+    <li class="home-nav"><a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
+    <li class="pantry-nav"><a routerLink="/pantry" routerLinkActive="active">Pantry</a></li>
+    <li class="fridge-nav"><a routerLink="/fridge" routerLinkActive="active">Fridge</a></li>
+    <li class="freezer-nav"><a routerLink="/freezer" routerLinkActive="active">Freezer</a></li>
     <!-- <li><a routerLink="/shopping-list">Shopping List</a></li> -->
   </ul>
 </nav>

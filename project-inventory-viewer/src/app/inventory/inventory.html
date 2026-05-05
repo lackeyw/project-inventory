@@ -1,0 +1,39 @@
+<div class="inventory-view" [class]="className">
+  <div class="inventory-layout">
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Quantity</th>
+        <th>Date Added</th>
+        <th>Expiration Date</th>
+        <th>Options</th>
+      </tr>
+      @for (item of items(); track $index) {
+        <tr>
+          <td>{{ item.name }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>{{ item.date_added.toLocaleDateString('en-US') }}</td>
+          <td [class.isExpiringSoon]="isExpiringSoon(item.expiration_date)">
+            {{ item.expiration_date?.toLocaleDateString('en-US') }}
+          </td>
+          <td class="td-buttons">
+            <app-remove-item (removeItemEvent)="deleteItem(item.id)" />
+            <app-move-item
+              [locationName]="getOtherLocationName(0)"
+              (moveItemEvent)="transferItem($event, item.id)"
+            />
+            <app-move-item
+              [locationName]="getOtherLocationName(1)"
+              (moveItemEvent)="transferItem($event, item.id)"
+            />
+            <app-move-item
+              [locationName]="getOtherLocationName(2)"
+              (moveItemEvent)="transferItem($event, item.id)"
+            />
+          </td>
+        </tr>
+      }
+    </table>
+    <app-add-item (addItemEvent)="addItem($event)" [location]="this.className"></app-add-item>
+  </div>
+</div>

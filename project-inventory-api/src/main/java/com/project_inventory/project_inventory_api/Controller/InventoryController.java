@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project_inventory.project_inventory_api.Model.Inventory;
+import com.project_inventory.project_inventory_api.Model.InventoryTransferDTO;
 import com.project_inventory.project_inventory_api.Model.InventoryValues;
 import com.project_inventory.project_inventory_api.Service.InventoryService;
 
@@ -86,6 +87,17 @@ public class InventoryController {
         logger.info("Finding inventory items by best before date: " + date);
         Date parsedDate = Date.valueOf(date);
         return inventoryService.findItemsByBestBeforeDate(parsedDate);
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/inventory/transfer")
+    public String transferInventory(@RequestBody InventoryTransferDTO inventoryTransferDTO) {
+        logger.info("Recieved request to transfer id " + inventoryTransferDTO.getInventoryId() + " from "
+                + inventoryTransferDTO.getSourceType() + " to " + inventoryTransferDTO.getDestinationType());
+        InventoryValues sourceType = getInventoryType(inventoryTransferDTO.getSourceType());
+        InventoryValues destinationType = getInventoryType(inventoryTransferDTO.getDestinationType());
+        inventoryService.TransferInventoryItem(sourceType, destinationType, inventoryTransferDTO.getInventoryId());
+        return "Transferred inventory item";
     }
 
     private InventoryValues getInventoryType(String type) {

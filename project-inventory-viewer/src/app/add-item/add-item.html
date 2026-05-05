@@ -1,0 +1,22 @@
+<div class="add-item">
+  <form [formGroup]="addItemForm" (ngSubmit)="onSubmit()">
+    <h2>Add Item</h2>
+    <label [class.shouldNotDisplay]="shouldNotDisplayLocation()" for="location">Location:</label>
+    <select [class.shouldNotDisplay]="shouldNotDisplayLocation()" name="location" id="location">
+      <option value="fridge" [selected]="isLocationOptionSelected('fridge')">Fridge</option>
+      <option value="freezer" [selected]="isLocationOptionSelected('freezer')">Freezer</option>
+      <option value="pantry" [selected]="isLocationOptionSelected('pantry')">Pantry</option>
+    </select>
+
+    <label for="name">Item Name:</label>
+    <input id="name" type="text" formControlName="name" placeholder="pickles" />
+
+    <label for="quantity">Quantity:</label>
+    <input id="quantity" type="number" formControlName="quantity" />
+
+    <label for="expiration_date">Expiration Date:</label>
+    <input id="expiration_date" type="date" formControlName="expiration_date" />
+
+    <button type="submit" [disabled]="!addItemForm.valid">Submit</button>
+  </form>
+</div>

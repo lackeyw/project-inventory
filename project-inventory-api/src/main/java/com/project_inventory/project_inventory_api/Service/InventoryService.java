@@ -12,26 +12,19 @@ import com.project_inventory.project_inventory_api.Model.Inventory;
 import com.project_inventory.project_inventory_api.Model.InventoryValues;
 import com.project_inventory.project_inventory_api.Model.ShoppingList;
 
-import jakarta.annotation.PostConstruct;
-import lombok.RequiredArgsConstructor;
-
 @Service
-@RequiredArgsConstructor
 public class InventoryService {
 
-    private final FridgeService fridgeService;
-    private final FreezerService freezerService;
-    private final PantryService pantryService;
     private final ShoppingListService shoppingListService;
+    private final Map<InventoryValues, LocationService<?>> serviceRegistry;
 
-    private Map<InventoryValues, LocationService<?>> serviceRegistry;
-
-    @PostConstruct
-    private void initializeRegistry() {
-        serviceRegistry = new HashMap<>();
-        serviceRegistry.put(InventoryValues.FRIDGE, fridgeService);
-        serviceRegistry.put(InventoryValues.FREEZER, freezerService);
-        serviceRegistry.put(InventoryValues.PANTRY, pantryService);
+    public InventoryService(FridgeService fridgeService, FreezerService freezerService,
+            PantryService pantryService, ShoppingListService shoppingListService) {
+        this.shoppingListService = shoppingListService;
+        this.serviceRegistry = new HashMap<>();
+        this.serviceRegistry.put(InventoryValues.FRIDGE, fridgeService);
+        this.serviceRegistry.put(InventoryValues.FREEZER, freezerService);
+        this.serviceRegistry.put(InventoryValues.PANTRY, pantryService);
     }
 
     private <T extends Inventory> LocationService<T> getService(InventoryValues type) {

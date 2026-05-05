@@ -28,7 +28,18 @@ public class PantryService implements LocationService<Pantry> {
 
     @Override
     public void addItem(Pantry inventory) {
-        pantryRepository.save(inventory);
+        List<Pantry> existingItems = this.getItemByName(inventory.getName());
+        if (existingItems.size() > 0) {
+            for (Pantry existingItem : existingItems) {
+                if (existingItem.getDate_added().equals(inventory.getDate_added())) {
+                    existingItem.setQuantity(existingItem.getQuantity() + inventory.getQuantity());
+                    pantryRepository.save(existingItem);
+                    return;
+                }
+            }
+        } else {
+            pantryRepository.save(inventory);
+        }
     }
 
     @Override
@@ -52,6 +63,11 @@ public class PantryService implements LocationService<Pantry> {
     @Override
     public List<Pantry> findItemsByBestBeforeDate(Date date) {
         return pantryRepository.findByBestBeforeDate(date);
+    }
+
+    @Override
+    public List<Pantry> getItemByName(String name) {
+        return pantryRepository.findByName(name);
     }
 
 }

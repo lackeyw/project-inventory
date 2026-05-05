@@ -11,6 +11,8 @@ public interface LocationService<T extends Inventory> {
 
     T getItemById(Long id);
 
+    List<T> getItemByName(String name);
+
     void addItem(T inventory);
 
     void updateItem(Long id, T inventory);
