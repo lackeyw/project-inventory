@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { ExpireSoon } from '../expire-soon/expire-soon';
 import { AddItem } from '../add-item/add-item';
-import { Item } from '../inventory/InventoryItemModel';
+import { ItemWithLocation } from '../inventory/InventoryItemModel';
+import { InventoryApiService } from '../inventory-api.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -10,7 +12,16 @@ import { Item } from '../inventory/InventoryItemModel';
   styleUrl: './home.css',
 })
 export class Home {
-  addItem($event: Item) {
-    throw new Error('Method not implemented.');
+  isDevRun = environment.devRun;
+
+  constructor(private inventoryApiService: InventoryApiService) {}
+
+  addItem($event: ItemWithLocation) {
+    if (this.isDevRun) return;
+
+    this.inventoryApiService.addItem($event, $event.location).subscribe({
+      next: () => console.log(`Successfully added item ${$event.name} to ${$event.location}`),
+      error: (err) => console.error(`Failed to add item to ${$event.location}: ${err.message}`),
+    });
   }
 }

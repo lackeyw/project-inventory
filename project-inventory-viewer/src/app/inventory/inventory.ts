@@ -3,6 +3,7 @@ import { Injectable, OnInit, signal, WritableSignal } from '@angular/core';
 import { Item, ItemWithLocation } from './InventoryItemModel';
 import { InventoryType } from './inventory.enum';
 import { environment } from '../../environments/environment';
+import { InventoryApiService } from '../inventory-api.service';
 
 @Injectable()
 export abstract class Inventory implements OnInit {
@@ -10,7 +11,7 @@ export abstract class Inventory implements OnInit {
   abstract className: string;
   items: WritableSignal<Item[]> = signal([]);
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient, private inventoryApiService: InventoryApiService) {}
 
   ngOnInit(): void {
     this.retrieveItems();
@@ -87,19 +88,17 @@ export abstract class Inventory implements OnInit {
       return;
     }
 
-    this.httpClient
-      .post(`http://localhost:8888/inventory/${this.className}`, item, { responseType: 'text' })
-      .subscribe({
-        next: () => {
-          console.log(`Successfully created item on ${this.className} with name ${item.name}`);
-          this.items.update((items) => [...items, item]);
-        },
-        error: (err) => {
-          console.error(
-            `${this.className} create item for name ${item.name} request failed: ${err.message}`,
-          );
-        },
-      });
+    this.inventoryApiService.addItem(item, this.className).subscribe({
+      next: () => {
+        console.log(`Successfully created item on ${this.className} with name ${item.name}`);
+        this.items.update((items) => [...items, item]);
+      },
+      error: (err) => {
+        console.error(
+          `${this.className} create item for name ${item.name} request failed: ${err.message}`,
+        );
+      },
+    });
   }
 
   updateItem(id: number, item: Item): void {
